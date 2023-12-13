@@ -1,0 +1,44 @@
+--**********************************************************************************************************
+--** NOMBRE SCRIPT        : Creacion de Tabla Seguimiento Firma de Contrato
+--** OBJETIVO             : Se crea esta tabla para saber si el candidato realizo la firma o NO de acuerdo al
+--**                        tiempo estipulado por el candidato 
+--** ESQUEMA              : rhu
+--** NOMBRE               : seg_firma_cto_expira
+--** AUTOR                : DEIBY SIERRA
+--** FECHA MODIFICACION   : 
+--**********************************************************************************************************
+CREATE TABLE rhu.seg_firma_cto_expira (
+    seg_id            NUMBER(9),
+    lib_consecutivo   NUMBER(12),
+    cto_numero        NUMBER(12),    
+    observacion       VARCHAR2(1000),
+    SEG_ESTADO    VARCHAR2(30 BYTE),
+    aud_fecha         DATE,
+    aud_usuario       VARCHAR2(30 BYTE),
+    CONSTRAINT seg_id_expira_pk PRIMARY KEY ( seg_id )
+);
+/--**Creacion de foreign key 
+ALTER TABLE rhu.seg_firma_cto_expira ADD FOREIGN KEY ( lib_consecutivo ) REFERENCES rhu.libroingreso ( lib_consecutivo );
+/
+GRANT ALL ON rhu.seg_firma_cto_expira TO PUBLIC;
+/--**Permiso de la Tabla
+CREATE PUBLIC SYNONYM seguimiento_firma_contrato_expira FOR rhu.seg_firma_cto_expira;
+/--**Creacion de la Secuencia
+CREATE SEQUENCE rhu.seq_seg_firma_cto_expira NOCACHE;
+/--**Permiso de la Secuencia
+GRANT ALL ON rhu.seg_firma_cto_expira TO PUBLIC;
+/--**Permiso de la Secuencia
+GRANT ALL ON rhu.seq_seg_firma_cto_expira TO PUBLIC;
+/--**Creacion del Disparador
+CREATE TRIGGER rhu.db_rhu_seg_firma_cto_expira BEFORE
+    INSERT ON rhu.seg_firma_cto_expira
+    REFERENCING
+    NEW AS new
+    FOR EACH ROW
+    BEGIN SELECT rhu.seq_seg_firma_cto_expira.nextval INTO :new.seg_id FROM dual;      
+    EXCEPTION
+    WHEN OTHERS THEN
+    raise_application_error(-20001, 'Error secuencia seg_firma_cto :' || sqlerrm);
+END;
+/
+alter table rhu.seg_firma_cto_expira add SEG_ESTADO VARCHAR2(30 BYTE);
