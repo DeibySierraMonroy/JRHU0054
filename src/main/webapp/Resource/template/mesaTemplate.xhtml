@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Mesa de Contratos </title>
+        <link rel="stylesheet" href="Resource/css/styles.css"></link>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex/themes/saga-blue.css"></link>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@3.1.2/primeflex.css"></link>
+        <link rel="stylesheet" href="./Resource/Fonts/Poppins/Poppins-Black.ttf"></link>
+        <script src="Resource/js/loadGenerico.js" type="text/javascript"/>
+        <link rel="stylesheet" href="Resource/css/styles.css"></link>
+    </h:head>
+    <h:body>        
+        <p:growl id="message" showDetail="true"/>
+        <p:tooltip/>
+        <p:dialog id="modalDialog" header="#{sessionScope.dialog.title}" modal="#{sessionScope.dialog.modal}"
+                  widgetVar="genericDialog" showEffect="#{sessionScope.dialog.effect}" styleClass="max-w-lg"
+                  appendTo="@(body)" closeOnEscape="true" resizable="false" draggable="false">
+            <h:form id="formGenericDialog">
+                <div class="ui-g-12">
+                    <div class="p-4">
+                        <p><h:outputText value="#{sessionScope.dialog.text}" escape="false"/></p>
+                    </div>
+                </div>
+                <div class="ui-g-12">
+                    <div class="flex items-center justify-center">
+                        <p:commandButton id="closePopupButton" value="Aceptar" update=":modalDialog"
+                                         process="@this" oncomplete="PF('genericDialog').hide();"/>
+
+                    </div>
+                </div>
+            </h:form>
+        </p:dialog>
+
+
+
+        <ui:insert name="content">
+        </ui:insert>
+        <p:dialog header="Responsables Internos del Cliente" 
+                  widgetVar="responsableInterno" 
+                  minHeight="40" 
+                  width="auto" 
+                  showEffect="fade"
+                  minimizable="true" 
+                  maximizable="true"
+                  >
+            <p:dataTable var="responsable" 
+                         value="#{acuerdoEmpresaBean.responsableInternos}"
+                         draggableColumns="true"
+                         id="tablaResponsables"
+                         reflow="true" 
+                         rows="5" 
+                         paginator="true"
+                         >
+                <p:column headerText="Cargo ">
+                    <h:outputText value="#{responsable.TCA_DESCRIPCION}" />
+                </p:column>
+
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{responsable.RIN_NOMBRE}" />
+                </p:column>
+
+                <p:column headerText="E-mail">
+                    <h:outputText value="#{responsable.RIN_MAIL}" />
+                </p:column>
+
+                <p:column headerText="Contacto">
+                    <h:outputText value="#{responsable.RIN_TELEFONO}" />
+                </p:column>
+            </p:dataTable>
+
+        </p:dialog>
+        <p:dialog header="Responsables de la Empresa" 
+                  widgetVar="responsableEmpresa" 
+                  minHeight="40" 
+                  width="auto" 
+                  showEffect="fade"
+                  minimizable="true" 
+                  maximizable="true"
+                  >
+            <p:dataTable var="reponsable" 
+                         value="#{acuerdoEmpresaBean.responsableEmpresas}"
+                         draggableColumns="true"
+                         id="tblresponsabl"
+                         reflow="true" 
+                         rows="3" 
+                         paginator="true"
+                         >
+                <p:column headerText="Codigo">
+                    <h:outputText value="#{reponsable.TRS_CODIGO}" />
+                </p:column>
+
+                <p:column headerText="Tipo de Responsable">
+                    <h:outputText value="#{reponsable.TRS_TIPO}" />
+                </p:column>
+
+                <p:column headerText="Nombre y Apellidos">
+                    <h:outputText value="#{reponsable.RCL_NOMBRE}" />
+                </p:column>
+
+                <p:column headerText="Cargo">
+                    <h:outputText value="#{reponsable.RCL_CARGO}" />
+                </p:column>
+            </p:dataTable>
+        </p:dialog>
+        <p:dialog header="Observaciones Generales" 
+                  widgetVar="observacionesGenerales" 
+                  minHeight="40" 
+                  width="auto" 
+                  showEffect="fade"
+                  minimizable="true" 
+                  maximizable="true"
+                  >
+            <p:dataTable var="observacion" 
+                         value="#{acuerdoEmpresaBean.observacionesGeneraleses}"
+                         draggableColumns="true"
+                         id="tblObservacionesGenerales"
+                         reflow="true" 
+                         rows="3" 
+                         paginator="true"
+                         >
+                <p:column headerText="Codigo">
+                    <h:outputText value="#{observacion.OBS_CODIGO}" />
+                </p:column>
+
+                <p:column headerText="Detalle de Observación">
+                    <h:outputText value="#{observacion.OBG_DETALLE}" />
+                </p:column>
+
+                <p:column headerText="Usuario">
+                    <h:outputText value="#{observacion.AUD_USUARIO}" />
+                </p:column>
+
+                <p:column headerText="Fecha">
+                    <h:outputText value="#{observacion.AUD_FECHA}" />
+                </p:column>
+            </p:dataTable>
+        </p:dialog>
+        <p:dialog header="Sucursales Empresa" 
+                  widgetVar="sucursalEmpresa" 
+                  minHeight="40" 
+                  width="auto" 
+                  showEffect="fade"
+                  minimizable="true" 
+                  maximizable="true"
+                  >
+
+            <p:dataTable var="sucursal" 
+                         value="#{acuerdoEmpresaBean.sucursal}"
+                         draggableColumns="true"
+                         id="tblsucursalEmpresa"
+                         reflow="true" 
+                         rows="6" 
+                         paginator="true"
+                         >
+                <p:column headerText="id ">
+                    <h:outputText value="#{sucursal.SUE_CODIGO}" />
+                </p:column>
+
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{sucursal.SUE_NOMBRE}" />
+                </p:column>
+
+                <p:column headerText="Direccion">
+                    <h:outputText value="#{sucursal.SUE_DIRECCION}" />
+                </p:column>
+
+            </p:dataTable>
+
+        </p:dialog>
+        <p:dialog header="Contacto Sucursal" 
+                  widgetVar="contactoSucursal" 
+                  minHeight="40" 
+                  width="657px" 
+                  showEffect="fade"
+                  minimizable="true" 
+                  maximizable="true"
+                  >
+
+            <p:dataTable var="contacto" 
+                         value="#{acuerdoEmpresaBean.contactoSucur}"
+                         draggableColumns="true"
+                         id="tblcontactoSucursal"
+                         reflow="true" 
+                         rows="6" 
+                         paginator="true"
+
+                         >
+                <p:column headerText="id ">
+                    <h:outputText value="#{contacto.TIC_CODIGO}" />
+                </p:column>
+
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{contacto.CSU_NOMBRE}" />
+                </p:column>
+
+                <p:column headerText="Direccion">
+                    <h:outputText value="#{contacto.CSU_DESCRIPCION}" />
+                </p:column>
+
+            </p:dataTable>
+
+        </p:dialog>
+        <p:dialog header="Nota Agrupacion" 
+                  widgetVar="notaEmpresa" 
+                  minHeight="40" 
+                  width="950px" 
+                  showEffect="fade"
+                  minimizable="true" 
+                  maximizable="true"
+
+                  >
+            <p:dataTable var="nota" 
+                         value="#{acuerdoEmpresaBean.agrupacionEmpresas1}"
+                         draggableColumns="true"
+                         id="tblnotaEmpresa"
+                         reflow="true" 
+                         scrollable="true"
+                         scrollHeight="250"
+
+
+                         >
+                <p:column headerText="Codigo">
+                    <h:outputText value="#{nota.NOA_CODIGO}" />
+                </p:column>
+
+                <p:column headerText="Descripcion">
+                    <h:outputText value="#{nota.NOA_DESCRIPCION}" />
+                </p:column>
+
+                <p:column headerText="Usuario">
+                    <h:outputText value="#{nota.AUD_USUARIO}" />
+                </p:column>
+                <p:column headerText="Fecha">
+                    <h:outputText value="#{nota.AUD_FECHA}" />
+                </p:column>
+
+            </p:dataTable>
+
+        </p:dialog>
+
+
+
+<!--        <p:dialog header="Historial " 
+                  widgetVar="historialAnalista" 
+                  minHeight="40" 
+                  width="950px" 
+                  showEffect="fade"
+                  minimizable="true" 
+                  maximizable="true"
+
+                  >
+
+            <div class="grid" >
+                <div class="col-6">
+                    <p:divider align="center" >
+                        <i class="pi pi-search mr-2"/>
+                        <b>  <p:outputLabel value="Seccion de Filtrado"
+                                            style="font-family: Activos"/></b>
+                    </p:divider>
+                </div>
+                <div class="col-6">
+                    <p:divider align="center" >
+                        <i class="pi pi-list mr-2"/>
+                        <b>  <p:outputLabel value="Tipo de Estados"
+                                            style="font-family: Activos"/></b>
+                    </p:divider>
+                </div>
+                <div class="col-3 md:col-3 lg:col-3">
+                    <div class="card">
+                        <p:datePicker id="range" selectionMode="range" value="#{calendarJava8View.range}"
+                                      readonlyInput="true"/>
+                    </div>
+                </div>
+                <div class="col-2 md:col-2 lg:col-2">
+                    <p:commandButton type="button" icon="pi pi-search" styleClass="rounded-button ui-button-secundary" value="Filtrar" />
+                </div>
+                <div class="col-1">
+                    <p:divider layout="vertical">
+
+                    </p:divider>
+                </div>
+                <div class="col-6 md:col-6 lg:col-2">
+                    <p:tag styleClass="mr-2" icon="pi pi-check" severity="success" value="Aprobado"></p:tag>
+                </div>
+                <div class="col-6 md:col-6 lg:col-2">
+                    <p:tag styleClass="mr-2" icon="pi pi-exclamation-triangle" severity="warning" value="En proceso"></p:tag>
+                </div>
+                <div class="col-6 md:col-6 lg:col-2">
+                    <p:tag icon="pi pi-times" severity="danger" value="Rechazado"></p:tag>
+                </div>
+            </div>
+            <div class="grid" >
+                <div class="col-6 md:col-6 lg:col-6">
+                    <div class="card">
+                        <p:lineChart model="#{mesaContratosBean.lineModel}" style="width: 100%; height: 500px;"/>
+                    </div>
+                </div>
+                <div class="col-6 md:col-6 lg:col-6">
+                    <p:dataTable var="nota" 
+                                 value="#{acuerdoEmpresaBean.agrupacionEmpresas1}"
+                                 draggableColumns="true"
+                                 id="tblhistAnalista"
+                                 reflow="true" 
+                                 scrollable="true"
+                                 scrollHeight="250"
+                                 >
+                        <p:column headerText="Fecha">
+                            <h:outputText value="#{nota.NOA_CODIGO}" />
+                        </p:column>
+                        <p:column headerText="Candidato">
+                            <h:outputText value="#{nota.NOA_DESCRIPCION}" />
+                        </p:column>
+                        <p:column headerText="Estado">
+                            <h:outputText value="#{nota.AUD_USUARIO}" />
+                        </p:column>
+                    </p:dataTable>
+                    <br></br>
+                    <br></br>
+                    <p:commandButton value="PDF" styleClass="ui-button-raised ui-button-warning" icon="pi pi-file-pdf" style="margin: 5px" >
+                        <p:dataExporter type="pdf" target="tbl" fileName="products"/>
+                    </p:commandButton>
+                    <p:commandButton value="XLSX" styleClass="ui-button-raised ui-button-danger" icon="pi pi-file-excel">
+                        <p:dataExporter type="xlsxstream" target="tbl" fileName="products"/>
+                    </p:commandButton>
+                </div>
+            </div>
+        </p:dialog>-->
+        <p:dialog 
+            widgetVar="statusDialog" 
+            modal="true" 
+            draggable="false" 
+            resizable="false" 
+            showHeader="false"
+            showEffect="fade"
+            style="border-radius: 6px
+            ;border-top-style: solid;border-top-color:#f2a325"
+            width="auto" >                  
+
+            <img src="Resource/gif/final.gif" alt="" width="500px"    />
+
+        </p:dialog>     
+    </h:body>
+</html>

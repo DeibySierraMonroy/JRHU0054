@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Seguimiento - Contrato</title>
+        <link rel="stylesheet" href="Resource/css/styles.css"></link>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex/themes/saga-blue.css"></link>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@3.1.2/primeflex.css"></link>
+        <link rel="stylesheet" href="./Resource/Fonts/Poppins/Poppins-Black.ttf"></link>
+        <link rel="stylesheet" type="text/css" href="css/introjs.css"/>
+        <script src="Resource/js/loadGenerico.js" type="text/javascript"/>
+        <script type="text/javascript" src="js/intro.js"></script>
+        <link rel="stylesheet" href="Resource/css/styles.css"></link>
+        <link rel="stylesheet" href="https://unpkg.com/intro.js/minified/introjs.min.css"></link>
+    </h:head>
+    <h:body>
+        <p:growl id="message" showDetail="true"/>
+        <h:form id="form1">
+            <p:card id="panelInicial" rendered="${seguimientoContrato.accesoIndex}" >
+                <div class="grid grid-nogutter surface-section text-800 "  >
+                    <div class="col-12 md:col-6 p-6 text-center md:text-left flex align-items-center " style="margin:0px auto;">
+                        <section>
+                            <span class="block text-6xl font-bold mb-1">Bienvenido al Moduló  Seguimiento de Contratos</span>
+                            <div class="text-6xl text-yellow-500 font-bold mb-3">#{seguimientoContrato.analista.nombreCompleto}</div>
+                            <p class="mt-0 mb-4 text-700 line-height-3">
+                                <b>Responsables del tratamiento de sus datos personales:</b>
+                                el responsable del tratamiento
+                                de sus datos personales será LA ORGANIZACIÓN, ante quien los interesados y titulares
+                                podrán dirigirse para el efectivo ejercicio de sus derechos de acceso, rectificación,
+                                actualización, supresión y revocación de la autorización de tratamiento. El ejercicio de
+                                estos derechos estará restringido conforme a los límites establecidos por Ley.
+                                <a href="https://www.activos.com.co/cmsa/wp-content/uploads/2020/10/IG20-V3-AVISO-DE-PRIVACIDAD-ACTIVOS-17Oct2019.pdf" target="_blank">
+                                    Más información</a>
+                            </p>
+                            <p:dialog header="Informacion Importante" 
+                                      widgetVar="informacionInicial"
+                                      minHeight="100" 
+                                      width="350"
+                                      showEffect="fade"
+                                      modal="true"
+                                      >                               
+                                <div class="surface-section text-700 text-center"> 
+                                    <p class="m-0">Bienvenid@ <b>#{seguimientoContrato.analista.nombreCompleto}</b>
+                                        al Modulo de Seguimiento de contratos , para hacer uso del modulo es importante 
+                                        indicar un rango de fechas las cuales permiten filtra la informacion a visualizar</p>
+                                    <br></br>
+                                    <div class="field col-12 md:col-12">
+                                        <p:outputLabel for="range" value="Seleccione un rango"/>
+                                        <p:datePicker id="range" 
+                                                      selectionMode="range" 
+                                                      value="#{seguimientoContrato.rangoDeFechas}" 
+                                                      readonlyInput="true"
+                                                      required="true"/>
+                                    </div>
+                                    <div class="field col-12 md:col-12">    
+                                        <p:commandButton  actionListener="#{seguimientoContrato.guardarFecha()}"
+                                                          value="Continuar" 
+                                                          update="form1 form2"
+                                                          styleClass="ui-button-raised ui-button-secondary" />
+                                    </div>
+                                </div>
+                            </p:dialog>
+                            <p:commandButton value="Continuar"
+                                             icon="pi pi-reply" 
+                                             class="mr-3 ui-button-raised
+                                             animation-color animation-fill-forwards" 
+                                             onclick="PF('informacionInicial').show()"
+
+                                             />
+                        </section>
+                    </div>
+                    <div class="col-12 md:col-6 overflow-hidden" >
+                        <img src="Resource/gif/Fondo_Inicio_V2.gif" alt=""  styleClass="md:ml-auto block md:h-full" width="96%"
+                             style="clip-path: polygon(10% 0, 100% 0%, 100% 100%, 0% 100%);"  />
+                    </div>
+                </div>
+            </p:card> 
+
+        </h:form>
+        <h:form id="form2">
+            <p:card id="panelInicial" rendered="#{seguimientoContrato.accesoSeguimiento}">
+                <div class="grid">
+                    <div class="col-12 lg:col-12 reporte" id="reportes">
+                        <div class="grid">
+                            <div class="col-6 lg:col-2 reporte fadeinleft animation-duration-1000" id="reportes">
+                                <p:commandButton value="Filtros" type="button" icon="pi pi-search"  onclick="PF('dlg4').show()"/>
+                            </div>
+                            <div class="col-6 lg:col-7 reporte" id="reportes">
+                                <div class="flex justify-content-center flex-wrap fadeinleft animation-duration-1000">
+                                    <span class="block text-3xl font-bold mb-1 text-center">Bienvenido al Moduló  Seguimiento de Contratos #{seguimientoContrato.analista.nombreCompleto}</span>
+                                </div>
+                            </div>
+                            <div class="col-6 lg:col-3 reporte" id="reportes">
+                                <div class="flex justify-content-end flex-wrap card-container green-container fadeinleft animation-duration-1000 ">
+                                    <p:commandButton value="Instrucciones de uso" styleClass="ui-button-secondary" icon="pi pi-external-link" onclick="iniciarTutorial()"/>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 lg:col-12 md:col-12 empresal">
+                    <div class="grid">
+                        <div class="col-12 lg:col-12 reporte" id="reportes">
+                            <div class="grid" style=" padding:0">
+                                <div class="p-0 h-full">
+                                    <div class="grid">
+                                        <div class="col-12 lg:col-5"> 
+                                            <div class="surface-card shadow-2 p-3 border-round"
+                                                 style="border-top-color: #006ba1;border-top-style: solid"> 
+
+                                                <p:dataTable id="candidatoEnSeguimiento"
+                                                             var="seguimiento"
+                                                             value="#{seguimientoContrato.analistaDtos}"
+                                                             selectionMode="single"
+                                                             selection="#{seguimientoContrato.contratosAnalistaDto}"
+                                                             rowKey="#{seguimiento.numeroDelLibro}"
+                                                             reflow="true"
+                                                             rows="5"
+                                                             lazy="true"
+                                                             paginator="true"
+                                                             >
+                                                    <p:ajax event="rowSelect"
+                                                            listener="#{seguimientoContrato.seguimientoFirmaContrato()}"
+                                                            update="form2:accionesContratoExpirado seguimientoProcesoContrato form2:candidatoEnSeguimiento"
+                                                            onstart="PrimeFaces.monitorDownload(start);"
+                                                            oncomplete="PrimeFaces.monitorDownload(stop);"/>
+                                                    <p:column headerText="Documento Candidato" width="150">
+                                                        <h:outputText
+                                                            value="#{seguimiento.tipoDocumentoCandidato} - #{seguimiento.numeroDocumentoCandidato}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Tiempo"  width="140">
+                                                        <p:chip label="${seguimiento.tiempoTranscurrido}"
+                                                                icon="pi pi-clock"
+                                                                styleClass="mr-2" 
+                                                                id="tiempo"
+                                                                style="background-color:${seguimientoContrato.validarEltiempoTrancurrido(seguimiento.tiempoTranscurrido)};
+                                                                color: #ffffff"
+                                                                />
+                                                        <p:tooltip for="tiempo"
+                                                                   position="bottom" 
+                                                                   showEffect="clip" 
+                                                                   hideEffect="fold"
+                                                                   style="background-color:#f57c00 "
+                                                                   />
+                                                    </p:column>
+                                                    <p:column headerText="Estado" width="50">
+                                                        <h:outputText value="#{seguimiento.estadoActualDelLibro}" id="estado"
+                                                                      style="background-color:${seguimiento.estadoTemporalLibro eq 'EXP' ? 'RED' : ''}"/>
+                                                        <p:tooltip for="estado"  value="#{seguimiento.observacionTemporal}" position="top"/>
+                                                    </p:column>
+                                                    <p:column headerText="¿Contrato enviado?" width="150">
+                                                        <h:outputText value="#{seguimiento.respuestaWS.contains('ERROR') ? 'NO ENVIADO' : 'ENVIADO'}" 
+                                                                      style="background-color:${seguimiento.respuestaWS.contains('ERROR') ? '#DC2626' : '#059669'};
+                                                                      border-radius: 10%;color: #ffffff"
+                                                                      id="estadoEnvio"/>
+                                                        <p:tooltip for="estadoEnvio"  value="#{seguimiento.respuestaWS.contains('ERROR') ?
+                                                                                               'El contrato no se pudo enviar al canditado!, en el apartado de acciones tendra la posibilidad de reeviarlo nuevamente'
+                                                                                               : 'El contrado se ha enviado con exito!'}" position="top"/>
+                                                    </p:column>
+                                                </p:dataTable>
+                                            </div>                                    
+                                        </div>                                                                                                       
+                                        <div class="col-12 lg:col-7">
+                                            <div class="surface-card shadow-2 p-3 border-round"
+                                                 style="border-top-color: #006ba1;border-top-style: solid">
+                                                <p:outputPanel id="accionesContratoExpirado" style="text-align:center;">
+
+                                                    <div class="grid" style=" padding:0">
+                                                        <div class="col-12 md:col-12 lg:col-12">                                                
+                                                            <div class="formgrid grid  p-3">     
+                                                                <div class="field col-1">
+                                                                    <label class="labelAcuerdo">Tipo</label>
+                                                                    <br></br>
+                                                                    <input class="ui-inputfield" readonly="true" value="#{seguimientoContrato.candidatoDto.tdc_td_epl}">                                                                        
+                                                                    </input>
+                                                                </div>
+                                                                <div class="field col-3 md:col-6 lg:col-3">
+                                                                    <label class="labelAcuerdo">Documento</label>
+                                                                    <br></br>
+                                                                    <input class="ui-inputfield" id="documento" readonly="true"  value="#{seguimientoContrato.candidatoDto.epl_nd}"> 
+                                                                    </input>
+                                                                </div>
+                                                                <div class="field col-3">
+                                                                    <label class="labelAcuerdo">Candidato</label>
+                                                                    <br></br>
+                                                                    <input class="ui-inputfield" readonly="true" value="#{seguimientoContrato.candidatoDto.nombre_empleado}">                                                                        
+                                                                    </input>
+                                                                </div>
+                                                                <div class="field col-3">
+                                                                    <label class="labelAcuerdo">Emp.Usuaria</label>
+                                                                    <br></br>
+                                                                    <input class="ui-inputfield" readonly="true" value="#{seguimientoContrato.candidatoDto.emp_nom_filial}">                                                                        
+                                                                    </input>
+                                                                </div>
+                                                                <div class="field col-2">
+                                                                    <label class="labelAcuerdo">E.Actual</label>
+                                                                    <br></br>
+                                                                    <input class="ui-inputfield" readonly="true" value="#{seguimientoContrato.candidatoDto.estado_libro}">                                                                        
+                                                                    </input>
+                                                                </div>
+                                                                <div class="field col-12">   
+                                                                    <p:divider align="left">
+                                                                        <div class="inline-flex align-items-center">
+                                                                            <i class="pi pi-file mr-2"/>
+                                                                            <b>Informacion del proceso </b>
+                                                                        </div>
+                                                                    </p:divider>
+                                                                </div>
+
+                                                                <div class="field col-12">
+                                                                    <div class="grid" style=" padding:0">
+                                                                        <div class="field col-8">
+                                                                            <label class="labelAcuerdo">Observación</label>
+                                                                            <br></br>
+                                                                            <input class="ui-inputfield" 
+                                                                                   readonly="true" 
+                                                                                   value="#{seguimientoContrato.obtenerObservacionSegunElEstado(seguimientoContrato.candidatoDto.estado_libro)}"
+
+                                                                                   >                                                                        
+                                                                            </input>
+                                                                        </div>
+                                                                        <div class="field col-4">
+                                                                            <br></br>                                                                       
+                                                                            <p:commandButton icon="pi pi-search"   type="button"  
+                                                                                             value="Seguimiento"
+                                                                                             id="seguimientoCircuitoFirmas"
+                                                                                             styleClass="rounded-button ui-button-secondary"
+                                                                                             onclick="PF('seguimientoFirma').show()" 
+                                                                                             disabled="#{seguimientoContrato.candidatoDto.epl_nd eq null ? 'true':'false'}"
+                                                                                             />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="field col-12">   
+                                                                    <p:divider align="left">
+                                                                        <div class="inline-flex align-items-center">
+                                                                            <i class="pi pi-phone mr-2"/>
+                                                                            <b>Informacion de contacto</b>
+                                                                        </div>
+                                                                    </p:divider>
+                                                                </div>
+                                                                <div class="field col-6">
+                                                                    <label class="labelAcuerdo">Correo Electronico</label>
+                                                                    <br></br>
+                                                                    <input class="ui-inputfield" readonly="true" value="#{seguimientoContrato.candidatoDto.correo_empleado}">                                                                        
+                                                                    </input>
+                                                                </div>
+                                                                <div class="field col-6">
+                                                                    <label class="labelAcuerdo">Celular</label>
+                                                                    <br></br>
+                                                                    <input class="ui-inputfield" readonly="true" value="#{seguimientoContrato.candidatoDto.telefono}">                                                                        
+                                                                    </input>
+                                                                </div>
+                                                                <div class="field col-12">   
+                                                                    <p:divider align="left">
+                                                                        <div class="inline-flex align-items-center">
+                                                                            <i class="pi pi-refresh mr-2"/>
+                                                                            <b>Acciones a Realizar</b>
+                                                                        </div>
+                                                                    </p:divider>
+                                                                </div>
+                                                                <div class="field col-5"> 
+                                                                    <p:commandButton value="Estado Anterior"
+                                                                                     styleClass="ui-button-raised ui-button-primary" 
+                                                                                     icon="pi pi-sync"
+                                                                                     action="#{seguimientoContrato.reenvioFirmaArchivosConcatenados()}"
+                                                                                     rendered="#{seguimientoContrato.candidatoDto.respuesWs.contains('ERROR')}"
+                                                                                     >
+                                                                        <p:confirm header="Confirmación"
+                                                                                   message="Señor usuario el candidato actualmente esta en un estado , #{seguimientoContrato.candidatoDto.estado_libro}
+                                                                                   al seleccionar esta opcion , el candidato quedara en un estado PRE(Preactivo)."
+                                                                                   icon="pi pi-exclamation-triangle"/>
+                                                                    </p:commandButton>
+                                                                </div>
+                                                                <div class="col-2">
+                                                                    <p:divider layout="vertical">
+                                                                        <b>OR</b>
+                                                                    </p:divider>
+                                                                </div>
+                                                                <div class="field col-5"> 
+                                                                    <p:commandButton value="Reenviar Contrato" 
+                                                                                     styleClass="ui-button-raised ui-button-secondary" 
+                                                                                     icon="pi pi-pencil"           
+                                                                                     rendered ="#{seguimientoContrato.candidatoDto.respuesWs.contains('ERROR') 
+                                                                                                  ? seguimientoContrato.candidatoDto.numeroIntentos >1 ? false : true
+                                                                                                  : true}"
+                                                                                     action="#{seguimientoContrato.reenvioFirmaArchivosConcatenados()}"
+                                                                                     update="@form message" 
+                                                                                     onstart="PrimeFaces.monitorDownload(start);"
+                                                                                     oncomplete="PrimeFaces.monitorDownload(stop);"
+                                                                                     >
+                                                                                     <p:confirm header="Confirmación"
+                                                                                     message="Señor usuario, es importante indicarle que solo se puede una unica vez reenviar el
+                                                                                     contrato , si desea enviar el contrato por segunda vez es necesario regresar el candidato a un estado
+                                                                                     PRE (Preactivo) y enviarlo de nuevo a la mesa de contratos."
+                                                                                     icon="pi pi-exclamation-triangle"/>
+                                                                    </p:commandButton>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"
+                                                                         />
+                                                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes"
+                                                                         />
+                                                    </p:confirmDialog>
+                                                </p:outputPanel>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>         
+                            </div>         
+                        </div>
+                    </div>
+                </div>
+            </p:card> 
+        </h:form>
+        <p:dialog 
+            widgetVar="statusDialog" 
+            modal="true" 
+            draggable="false" 
+            resizable="false" 
+            showHeader="false"
+            style="border-radius: 6px
+            ;border-top-style: solid;border-top-color:#f2a325"
+            width="auto" >                   
+            <img src="Resource/gif/final.gif" alt="" width="500px"/>
+        </p:dialog>  
+        <p:dialog header="Seccion de Filtros" 
+                  id="seccionFiltros"
+                  widgetVar="dlg4" 
+                  minHeight="250" 
+                  width="700" 
+                  position="top"
+                  responsive="true"
+                  minimizable="true">
+            <div class="grid">
+                <div class="col-12 lg:col-12 reporte" id="reportes">
+                    <div class="grid" style=" padding:0">
+                        <div class="col-12 md:col-6 lg:col-4">
+                            <p:commandLink action="#{seguimientoContrato.buscarInformacionSegunEstado('CTO')}"
+                                           update="form2:candidatoEnSeguimiento seccionFiltros form2:accionesContratoExpirado"
+                                           onstart="PrimeFaces.monitorDownload(start);"
+                                           oncomplete="PrimeFaces.monitorDownload(stop);" >
+                                <div class="surface-card shadow-2 p-3 border-round"
+                                     style="border-top-color: #006ba1;border-top-style: solid">
+                                    <div class="flex justify-content-between mb-3">
+                                        <div>
+                                            <span class="block text-500 font-medium mb-3">CONTRATADO</span>
+                                            <div class="text-900 font-medium align-items-center  text-3xl">#{seguimientoContrato.totalCandidatosFinalizados}</div>
+                                        </div>
+                                        <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                                             style="width:2.5rem;height:2.5rem">
+                                            <i class="pi pi-user text-blue-500 text-xl"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:commandLink>
+                        </div>
+                        <div class="col-12 md:col-6 lg:col-4">
+                            <p:commandLink action="#{seguimientoContrato.buscarInformacionSegunEstado('PFC')}"
+                                           update="form2:candidatoEnSeguimiento seccionFiltros form2:accionesContratoExpirado"
+                                           onstart="PrimeFaces.monitorDownload(start);"
+                                           oncomplete="PrimeFaces.monitorDownload(stop);" >
+                                <div class="surface-card shadow-2 p-3 border-round"
+                                     style="border-top-color: #f57c00;border-top-style: solid">
+                                    <div class="flex justify-content-between mb-3">
+                                        <div>
+                                            <span class="block text-500 font-medium mb-3">P.CANDIDATO</span>
+                                            <div class="text-900 font-medium text-3xl">#{seguimientoContrato.totalCandidatosPendienteFirma}</div>
+                                        </div>
+                                        <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                                             style="width:2.5rem;height:2.5rem">
+                                            <i class="pi pi-times text-orange-500 text-xl"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:commandLink>
+                        </div>
+                        <div class="col-12 md:col-6 lg:col-4" id="candidatosAprobados">
+                            <p:commandLink action="#{seguimientoContrato.buscarInformacionSegunEstado('PFR')}"
+                                           update="form2:candidatoEnSeguimiento seccionFiltros form2:accionesContratoExpirado"
+                                           onstart="PrimeFaces.monitorDownload(start);"
+                                           oncomplete="PrimeFaces.monitorDownload(stop);" 
+                                           >
+                                <div class="surface-card shadow-2 p-3 border-round"
+                                     style="border-top-color: #00bcd4;border-top-style: solid">
+                                    <div class="flex justify-content-between mb-3">
+                                        <div>
+                                            <span class="block text-500 font-medium mb-3">P.REPRESENTANTE</span>
+                                            <div class="text-900 font-medium text-3xl">#{seguimientoContrato.totalCandidatosPendienteRepresentante}</div>
+                                        </div>
+                                        <div class="flex align-items-center justify-content-center bg-cyan-100 border-round"
+                                             style="width:2.5rem;height:2.5rem">
+                                            <i class="pi pi-check text-cyan-500 text-xl"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:commandLink>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="grid">
+                <h:form id="selectCoordinador">
+                    <div class="col-12 md:col-12 lg:col-12">
+                        <p:outputLabel for="@next" value="Coordinador"/>
+                        <p:selectOneMenu 
+                            converter="entityConverter"
+                            value="#{seguimientoContrato.coordinadorRecuperado}"
+                            filter="true"
+                            filterMatchMode="contains"                          
+                            >
+                            <f:selectItem itemLabel="Seleccione un Coordinador"
+                                          itemValue="#{seguimientoContrato.coordinadorRecuperado}"/>
+                            <f:selectItems value="#{seguimientoContrato.coordinadores}"
+                                           var="coordinador"
+                                           itemLabel="#{coordinador.nombreUsuario} - #{coordinador.ubicacion}"
+                                           itemValue="#{coordinador}"/>
+                            <p:ajax event="change"
+                                    update="form2:candidatoEnSeguimiento seccionFiltros form2:accionesContratoExpirado"
+                                    onstart="PrimeFaces.monitorDownload(start);"
+                                    oncomplete="PrimeFaces.monitorDownload(stop);" 
+                                    listener="#{seguimientoContrato.buscarContratosPorCoordinador()}"/>
+                            <f:facet name="footer">
+                                <p:divider styleClass="mt-0"/>
+                                <h:outputText value="#{seguimientoContrato.coordinadores.size()}"
+                                              style="font-weight:bold;"/>
+                            </f:facet>
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="col-12 md:col-12 lg:col-12">
+                        <br></br>
+                        <div class="flex justify-content-center">
+                            <p:commandButton
+                                value="Limpiar"
+                                action="#{seguimientoContrato.listarCandidatosPorAnalista()}"
+                                update="form2:candidatoEnSeguimiento form2:accionesContratoExpirado seccionFiltros"
+                                onstart="PrimeFaces.monitorDownload(start);"
+                                oncomplete="PrimeFaces.monitorDownload(stop);" 
+                                styleClass="ui-button-danger"
+                                icon="pi pi-sync"
+                                />
+                        </div>
+                    </div>
+                </h:form>
+            </div>
+        </p:dialog> 
+        <p:dialog header="Seguimiento Proceso Contratacion" 
+                  widgetVar="seguimientoFirma" 
+                  id="seguimientoProcesoContrato"
+                  minHeight="250" 
+                  width="700" 
+                  position="top"
+                  responsive="true"
+                  minimizable="true">                  
+            <div class="col-12 lg:col-12" id="seguimientoContrato">
+                <div class="surface-card shadow-2 p-3 border-round"
+                     style="border-top-color: #f57c00;border-top-style: solid">
+                    <p:outputPanel id="seguimientoContratoChronoline" style="text-align:center;">
+                        <p:chronoline value="#{seguimientoContrato.estados}"
+                                      var="event"
+                                      align="alternate"
+                                      id="customerDetailchronoline"
+                                      >
+                            <small class="text-secondary">#{event.evento}</small>
+                            <br></br>
+                            <small class="text-secondary">#{event.fecha}</small>
+                            <f:facet name="marker">
+                                <br></br>
+                                <span class="custom-marker shadow-1" 
+                                      style="background-color:#{event.evento eq 'ACUERDO EXPIRADO' ? '#DC2627' 
+                                                                :
+                                                                event.fecha eq  seguimientoContrato.totalEstados ? '#3fbd7d' : '' };
+                                      border-radius:50%;  width: 1rem;height: 1rem;">
+                                    <i class="#{event.evento eq 'ACUERDO EXPIRADO' ? 'pi pi-times' : 'pi pi-check-circle'}" />
+                                </span>
+                            </f:facet>
+                        </p:chronoline>
+                    </p:outputPanel>
+                </div>
+            </div>
+        </p:dialog>  
+
+    </h:body>
+</html>

@@ -1,0 +1,16 @@
+co\com\activos\jrhu0054\Entities\InformacionGeneralDelAnalista.class
+co\com\activos\jrhu0054\Utilities\OracleConnection.class
+co\com\activos\jrhu0054\Utilities\SessionUtils.class
+co\com\activos\jrhu0054\Servlet\ServletInicio.class
+co\com\activos\jrhu0054\Entities\CoordinadorDto.class
+co\com\activos\jrhu0054\Entities\DatabaseResultDto.class
+co\com\activos\jrhu0054\Enum\DatabaseResultStatus.class
+co\com\activos\jrhu0054\Entities\SeguimientoContratosAnalistaDto.class
+co\com\activos\jrhu0054\Entities\InformacionGeneralCandidatoDto.class
+co\com\activos\jrhu0054\Utilities\EntityConverter.class
+co\com\activos\jrhu0054\Entities\SeguimientoCandidato.class
+co\com\activos\jrhu0054\Utilities\UsuarioSesionController.class
+co\com\activos\jrhu0054\bean\SeguimientoContrato.class
+co\com\activos\jrhu0054\Entities\UsuarioSesion.class
+co\com\activos\jrhu0054\Repositories\SeguimientoRepo.class
+co\com\activos\jrhu0054\Repositories\SeguimientoRepoImpl.class
